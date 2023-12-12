@@ -11,7 +11,7 @@ from time import sleep
 dev_token = os.environ['DEV_TOKEN']
 bot_token = os.environ['TG_BOT_TOKEN']
 headers = {'Authorization': f'Token {dev_token}'}
-url = 'https://dvmn.org/api/long_polling/'
+URL = 'https://dvmn.org/api/long_polling/'
 
 
 def main():
@@ -29,7 +29,7 @@ def main():
     chat_id = args.chat_id
     while True:
         try:
-            response = requests.get(url,
+            response = requests.get(URL,
                                     headers=headers,
                                     params={"timestamp": timestamp},
                                     timeout=90,)
