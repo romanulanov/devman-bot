@@ -56,7 +56,6 @@ def main():
                          f'реподаватель одобрил работу, можно приступать'
                          f'к следующему уроку! Ссылка на урок:{lesson_url}',
                     chat_id=chat_id,)
-            sleep(5)
         except requests.exceptions.ConnectionError:
             print("Нет интернета. Жду 10 секунд")
             sleep(10)
