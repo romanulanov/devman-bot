@@ -61,8 +61,10 @@ def main():
             print("Нет интернета. Жду 10 секунд")
             sleep(10)
         except requests.exceptions.ReadTimeout:
-            print("Не было получено новых работ. Жду 10 секунд")
-            sleep(10)
+            response = requests.get(URL,
+                                    headers=headers,
+                                    params={"timestamp": timestamp},
+                                    timeout=5,)
 
 
 if __name__ == "__main__":
