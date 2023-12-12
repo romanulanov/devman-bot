@@ -33,15 +33,16 @@ def main():
                                     headers=headers,
                                     params={"timestamp": timestamp},
                                     timeout=90,)
-            if response.json()["status"] == "timeout":
-                timestamp = response.json()["timestamp_to_request"]
+            check_results = response.json()
+            if check_results["status"] == "timeout":
+                timestamp = check_results["timestamp_to_request"]
             else:
-                timestamp = response.json()["new_attempts"][0]["timestamp"]
-                is_negative = response.json()["new_attempts"][0]["is_negative"]
+                timestamp = check_results["new_attempts"][0]["timestamp"]
+                is_negative = check_results["new_attempts"][0]["is_negative"]
                 lesson_title = (
-                    response.json()["new_attempts"][0]["lesson_title"]
+                    check_results["new_attempts"][0]["lesson_title"]
                 )
-                lesson_url = response.json()["new_attempts"][0]["lesson_url"]
+                lesson_url = check_results["new_attempts"][0]["lesson_url"]
 
             if is_negative:
                 bot.send_message(
