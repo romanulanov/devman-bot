@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from time import sleep
 
 
-load_dotenv()
 dev_token = os.environ['DEV_TOKEN']
 bot_token = os.environ['TG_BOT_TOKEN']
 headers = {'Authorization': f'Token {dev_token}'}
@@ -67,4 +66,5 @@ def main():
 
 
 if __name__ == "__main__":
+    load_dotenv()
     main()
