@@ -7,14 +7,14 @@ import os
 from dotenv import load_dotenv
 from time import sleep
 
-
-dev_token = os.environ['DEV_TOKEN']
-bot_token = os.environ['TG_BOT_TOKEN']
-headers = {'Authorization': f'Token {dev_token}'}
 URL = 'https://dvmn.org/api/long_polling/'
 
 
 def main():
+    load_dotenv()
+    dev_token = os.environ['DEV_TOKEN']
+    bot_token = os.environ['TG_BOT_TOKEN']
+    headers = {'Authorization': f'Token {dev_token}'}
     parser = argparse.ArgumentParser(
         description='''Бот для отправки результата проверки работ.''')
     parser.add_argument('chat_id',
@@ -46,27 +46,27 @@ def main():
 
             if is_negative:
                 bot.send_message(
-                    text=f'''У вас проверили работу «{lesson_title}»\n\nК
-                         сожалению в работе нашлись ошибки.
-                         Ссылка на урок:{lesson_url}''',
+                    text=f'''
+У вас проверили работу «{lesson_title}»\n
+К сожалению в работе нашлись ошибки.
+Ссылка на урок:{lesson_url}
+                ''',
                     chat_id=chat_id,
                     )
             else:
                 bot.send_message(
-                    text=f'''У вас проверили работу «{lesson_title}»\n\nП
-                         реподаватель одобрил работу, можно приступать
-                         к следующему уроку! Ссылка на урок:{lesson_url}''',
+                    text=f'''
+У вас проверили работу «{lesson_title}»\n
+Преподаватель одобрил работу, можно приступать
+к следующему уроку! Ссылка на урок:{lesson_url}
+                ''',
                     chat_id=chat_id,)
         except requests.exceptions.ConnectionError:
             print("Нет интернета. Жду 10 секунд")
             sleep(10)
         except requests.exceptions.ReadTimeout:
-            response = requests.get(URL,
-                                    headers=headers,
-                                    params={"timestamp": timestamp},
-                                    timeout=5,)
+            sleep(10)
 
 
 if __name__ == "__main__":
-    load_dotenv()
     main()
