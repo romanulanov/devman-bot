@@ -45,16 +45,16 @@ def main():
 
             if is_negative:
                 bot.send_message(
-                    text=f'У вас проверили работу «{lesson_title}»\n\nК '
-                         f'сожалению в работе нашлись ошибки. '
-                         f'Ссылка на урок:{lesson_url}',
+                    text=f'''У вас проверили работу «{lesson_title}»\n\nК
+                         сожалению в работе нашлись ошибки.
+                         Ссылка на урок:{lesson_url}''',
                     chat_id=chat_id,
                     )
             else:
                 bot.send_message(
-                    text=f'У вас проверили работу «{lesson_title}»\n\nП'
-                         f'реподаватель одобрил работу, можно приступать'
-                         f'к следующему уроку! Ссылка на урок:{lesson_url}',
+                    text=f'''У вас проверили работу «{lesson_title}»\n\nП
+                         реподаватель одобрил работу, можно приступать
+                         к следующему уроку! Ссылка на урок:{lesson_url}''',
                     chat_id=chat_id,)
         except requests.exceptions.ConnectionError:
             print("Нет интернета. Жду 10 секунд")
