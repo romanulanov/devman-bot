@@ -67,11 +67,7 @@ def main():
             print("Нет интернета. Жду 10 секунд")
             sleep(10)
         except requests.exceptions.ReadTimeout:
-            start_time = int(time.time())
-            response = requests.get(URL,
-                                    timeout=2)
-            delta_time = int(time.time()) - start_time
-            print(f"Подключился к DVMN за {int(delta_time)} сек")
+            pass
 
 
 if __name__ == "__main__":
