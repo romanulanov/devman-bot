@@ -1,4 +1,5 @@
 import argparse
+import textwrap
 import requests
 import telegram
 import time
@@ -46,26 +47,31 @@ def main():
 
             if is_negative:
                 bot.send_message(
-                    text=f'''
-У вас проверили работу «{lesson_title}»\n
-К сожалению в работе нашлись ошибки.
-Ссылка на урок:{lesson_url}
-                ''',
+                    text=textwrap.dedent(f'''
+                    У вас проверили работу «{lesson_title}»\n
+                    К сожалению в работе нашлись ошибки.
+                    Ссылка на урок:{lesson_url}
+                    '''),
                     chat_id=chat_id,
                     )
             else:
                 bot.send_message(
-                    text=f'''
-У вас проверили работу «{lesson_title}»\n
-Преподаватель одобрил работу, можно приступать
-к следующему уроку! Ссылка на урок:{lesson_url}
-                ''',
-                    chat_id=chat_id,)
+                    text=textwrap.dedent(f'''
+                    У вас проверили работу «{lesson_title}»\n
+                    Преподаватель одобрил работу, можно приступать
+                    к следующему уроку! Ссылка на урок:{lesson_url}
+                    '''),
+                    chat_id=chat_id,
+                    )
         except requests.exceptions.ConnectionError:
             print("Нет интернета. Жду 10 секунд")
             sleep(10)
         except requests.exceptions.ReadTimeout:
-            sleep(10)
+            start_time = int(time.time())
+            response = requests.get(URL,
+                                    timeout=2)
+            delta_time = int(time.time()) - start_time
+            print(f"Подключился к DVMN за {int(delta_time)} сек")
 
 
 if __name__ == "__main__":
