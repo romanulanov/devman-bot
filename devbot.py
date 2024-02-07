@@ -1,4 +1,5 @@
 import argparse
+import logging
 import textwrap
 import requests
 import telegram
@@ -8,7 +9,14 @@ import os
 from dotenv import load_dotenv
 from time import sleep
 
+
 URL = 'https://dvmn.org/api/long_polling/'
+
+
+class MyLogsHandler(logging.Handler):
+    
+    def emit(self, record):
+        log_entry = self.format(record)
 
 
 def main():
