@@ -35,6 +35,7 @@ def main():
                                     headers=headers,
                                     params={"timestamp": timestamp},
                                     timeout=90,)
+            response.raise_for_status()
             check_results = response.json()
             if check_results["status"] == "timeout":
                 timestamp = check_results["timestamp_to_request"]
