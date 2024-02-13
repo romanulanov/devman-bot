@@ -65,7 +65,6 @@ def main():
                     chat_id=chat_id,
                     )
         except requests.exceptions.ConnectionError:
-            print("Нет интернета. Жду 10 секунд")
             sleep(10)
         except requests.exceptions.ReadTimeout:
             pass
