@@ -1,5 +1,6 @@
 import argparse
 import textwrap
+import logging
 import requests
 import telegram
 import time
@@ -10,6 +11,17 @@ from time import sleep
 
 
 URL = 'https://dvmn.org/api/long_polling/'
+
+
+class TelegramLogsHandler(logging.Handler):
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def main():
@@ -26,9 +38,13 @@ def main():
                         'Узнать можно здесь: https://telegram.me/userinfobot',
                         )
     args = parser.parse_args()
-    bot = telegram.Bot(token=bot_token)
-    timestamp = int(time.time())
     chat_id = args.chat_id
+    bot = telegram.Bot(token=bot_token)
+    bot.logger.addHandler(TelegramLogsHandler(bot, chat_id))
+    bot.logger.warning('Бот запущен')
+    timestamp = int(time.time())
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s - %(levelname)s - %(message)s')
     while True:
         try:
             response = requests.get(URL,
@@ -69,6 +85,9 @@ def main():
             sleep(10)
         except requests.exceptions.ReadTimeout:
             pass
+        except Exception as err:
+            error = f'Бот упал с ошибкой {str(err)}'
+            bot.logger.warning(error)
 
 
 if __name__ == "__main__":
